@@ -1,0 +1,190 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.pg-Login .login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  position: relative;
+  padding-bottom: 3.2rem;
+}
+
+.pg-Login .login::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("/public/assets/backgroundUpscale.png") no-repeat center
+    center fixed;
+  background-size: cover;
+  filter: blur(5px);
+  z-index: -1;
+  opacity: 0.7;
+}
+
+.pg-Login .login-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 850px;
+  padding: 40px;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+  position: relative;
+}
+
+.pg-Login .login-title {
+  flex: 1;
+  text-align: left;
+  padding-right: 40px;
+}
+
+.pg-Login .login-title h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.pg-Login .form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-right: 25px;
+}
+
+.pg-Login .form > div {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.pg-Login label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.pg-Login input[type="email"],
+.pg-Login input[type="text"],
+.pg-Login input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  height: 45px;
+}
+
+.pg-Login .button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.pg-Login button {
+  padding: 10px 20px;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pg-Login button:hover {
+  background-color: none;
+}
+
+.pg-Login button:not(.empty) {
+  background: #ff0000;
+}
+
+.pg-Login button:not(.empty):hover {
+  background: #ff0000;
+}
+
+.pg-Login button:not(.empty):active {
+  background: #ff0000;
+}
+
+.pg-Login p {
+  text-align: left;
+  margin: 0;
+}
+
+.pg-Login a {
+  color: #c70025;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.pg-Login a:hover {
+  text-decoration: underline;
+}
+
+.pg-Login .link-button-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pg-Login .link-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.pg-Login .link-section p {
+  margin: 3px 0;
+  font-size: 14px;
+}
+
+.pg-Login .cursor-pointer {
+  cursor: pointer;
+}
+
+.pg-Login .empty {
+  color: #16182357;
+  background: #1618230f;
+  cursor: not-allowed;
+  border: none;
+}
+
+.pg-Login .fa-arrow-left {
+  color: #c70025;
+  cursor: pointer;
+}
+
+.pg-Login .fa-arrow-left:hover {
+  color: #ff0000;
+}
+
+.back-arrow {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.back-arrow i {
+  font-size: 24px;
+  color: #333 !important;
+  transition: color 0.3s ease;
+}
+
+.back-arrow i:hover {
+  color: #007bff !important;
+}

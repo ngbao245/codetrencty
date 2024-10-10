@@ -1,0 +1,152 @@
+:root {
+  --primary-color: #c70025;
+  --secondary-color: #8c6954;
+  --accent-color: #f1f1f1;
+  --background-color: #f5f1ee;
+  --text-color: #1a365d;
+  --light-text-color: #6c5f5a;
+  --border-color: #d0c3bc;
+  --button-color: #c70025;
+}
+
+.contact-container {
+  position: relative;
+  /* background-color: #f1f1f1; */
+  padding-bottom: 4rem;
+}
+
+.contact-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("/public/assets/backgroundUpscale.png") no-repeat center
+    center fixed;
+  background-size: cover;
+  filter: blur(5px);
+  z-index: -1;
+  opacity: 0.7;
+}
+
+.contact-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.contact-title {
+  margin: 0 auto;
+  padding: 4rem;
+  font-size: 3.5rem;
+  color: #1a365d;
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.contact-frame {
+  display: flex;
+  background-color: #f1f1f1;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(40, 23, 19, 0.1);
+}
+
+.contact-info {
+  flex: 0.75;
+  background-color: var(--primary-color);
+  color: #f1f1f1;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 12px 0 0 12px;
+}
+
+.contact-info h2 {
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  /* color: #f1f1f1; */
+  color: #ffffff;
+}
+
+.contact-info p {
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.contact-info ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.contact-info li {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.contact-info li i {
+  margin-right: 1rem;
+  font-size: 1.2rem;
+  color: var(--accent-color);
+}
+
+.contact-form {
+  flex: 1.5;
+  padding: 1rem;
+}
+
+.form-group {
+  margin-bottom: 2rem;
+  color: #ffffff;
+  color: #f1f1f1;
+  /* color: #ffffff; */
+}
+
+.form-group label{
+  color: #000000;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(199, 0, 37, 0.25);
+}
+
+.form-group textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.submit-btn {
+  background-color: var(--button-color);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.submit-btn:hover {
+  background-color: #a30020;
+  transform: translateY(-2px);
+}
