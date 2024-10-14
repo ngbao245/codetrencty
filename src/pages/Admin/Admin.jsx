@@ -81,8 +81,8 @@ const Admin = () => {
   };
 
   const handleUpdateTable = (staff) => {
-    setFetchAgain((prev) => !prev);
-    setIsShowModalAddNew(false);
+    setFetchAgain((prev) => !prev); // Toggle fetchAgain to refetch staff data
+    setIsShowModalAddNew(false); // Close the modal after adding
   };
 
   const handleSearch = (event) => {

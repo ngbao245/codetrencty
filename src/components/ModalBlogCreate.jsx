@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { createBlog } from "../services/BlogService"; // Make sure this service function is correctly set up
+import { createBlog } from "../services/BlogService";
+import "./ModalBlogCreate.css";
 import { uploadImageCloudinary } from "../services/CloudinaryService";
 
 const folder = import.meta.env.VITE_FOLDER_BLOG;
 
-const ModalBlogCreate = ({ isOpen, onClose, handleUpdate }) => {
+const ModalBlogCreate = ({ isOpen, onClose, handleUpdate, setIsUploading }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -34,6 +35,7 @@ const ModalBlogCreate = ({ isOpen, onClose, handleUpdate }) => {
 
   const uploadImage = async () => {
     setIsLoading(true);
+    setIsUploading(true);
     try {
       if (imageFile) {
         const response = await uploadImageCloudinary(imageFile, folder);
@@ -42,6 +44,8 @@ const ModalBlogCreate = ({ isOpen, onClose, handleUpdate }) => {
     } catch (error) {
       console.error("Image upload failed:", error);
       toast.error("Image upload failed. Please try again.");
+    } finally {
+      setIsUploading(false);
     }
     return null;
   };
@@ -49,14 +53,15 @@ const ModalBlogCreate = ({ isOpen, onClose, handleUpdate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    onClose();
 
     try {
       const uploadedImageUrl = await uploadImage();
       if (uploadedImageUrl) {
         const newBlogData = { ...formData, imageUrl: uploadedImageUrl };
-        const res = await createBlog(newBlogData);
+        const response = await createBlog(newBlogData);
 
-        if (res && res.data && res.data.id) {
+        if (response && response.data && response.data.id) {
           toast.success("Blog created successfully!");
           setFormData({
             title: "",
@@ -66,8 +71,7 @@ const ModalBlogCreate = ({ isOpen, onClose, handleUpdate }) => {
 
           setImageFile(null);
           setImagePreview(null);
-          handleUpdate(res.data);
-          onClose();
+          handleUpdate(response.data);
         } else {
           toast.error("Error while creating the blog.");
         }
@@ -83,7 +87,7 @@ const ModalBlogCreate = ({ isOpen, onClose, handleUpdate }) => {
 
   return (
     <div className="modal-overlay">
-      <div className={`modal-content ${isLoading ? 'blurred' : ''}`}>
+      <div className={`modal-content ${isLoading ? "blurred" : ""}`}>
         <div className="modal-header">
           <h2>Add New Blog</h2>
           <button className="modal-close-button" onClick={onClose}>
@@ -117,12 +121,12 @@ const ModalBlogCreate = ({ isOpen, onClose, handleUpdate }) => {
             <label htmlFor="imageUrl">Choose file:</label>
             <input
               id="imageUrl"
+              name="imageUrl"
               type="file"
               accept="image/png, image/jpg, image/jpeg"
-              name="imageUrl"
               onChange={handleImageChange}
-              required
               className="text-dark"
+              required
             />
             {imagePreview && (
               <img src={imagePreview} alt="Preview" className="w-100" />
