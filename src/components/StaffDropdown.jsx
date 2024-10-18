@@ -1,11 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
+import "./StaffDropdown.css";
 
-const StaffDropdown = ({
-  staffMembers,
-  onAssign,
-  currentStaffId,
-  className,
-}) => {
+const StaffDropdown = ({ staffMembers, onAssign, currentStaffId, disabled }) => {
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -29,25 +25,32 @@ const StaffDropdown = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleButtonClick = () => {
+    if (!disabled) {
+      setIsOpen((prev) => !prev);
+    }
+  };
+
   return (
-    <div className={`${className} ${isOpen ? "open" : ""}`} ref={dropdownRef}>
-      <button
-        onClick={() => setIsOpen((prev) => !prev)}
-        className="bg-blue-500 text-white px-2 py-1 rounded"
+    <div className={`assign ${isOpen ? "open" : "close"}`} ref={dropdownRef}>
+      <button 
+        className={`assign-btn ${disabled ? "disabled" : ""}`} 
+        onClick={handleButtonClick}
+        disabled={disabled}
       >
-        {currentStaff ? `Assigned: ${currentStaff.name}` : "Assign Staff"}
+        {currentStaff ? `${currentStaff.name}` : ""}
       </button>
 
-      {isOpen && (
+      {isOpen && !disabled && (
         <div className="dropdown-content">
           <input
             type="text"
-            placeholder="Search staff..."
+            placeholder="Tìm kiếm nhân viên.."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full p-2 border-b"
+            className="search-input"
           />
-          <ul className="max-h-60 overflow-auto">
+          <ul className="staff-list">
             {filteredStaff.length > 0 ? (
               filteredStaff.map((staff) => (
                 <li
@@ -56,13 +59,13 @@ const StaffDropdown = ({
                     onAssign(staff.id);
                     setIsOpen(false);
                   }}
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
+                  className="staff-list-item"
                 >
                   {staff.name}
                 </li>
               ))
             ) : (
-              <li className="p-2 text-gray-500">No staff members found</li>
+              <li className="not-found-staff">Không tìm thấy</li>
             )}
           </ul>
         </div>

@@ -19,7 +19,10 @@ import Order from "../pages/Order/Order";
 import PaymentFailed from "../pages/Payment/PaymentFailed";
 import AdminBlog from "../pages/Blog/AdminBlog.jsx";
 import UserDetail from "../pages/User/UserDetail.jsx";
+import UserPayment from "../pages/User/UserPayment.jsx";
+import StaffOrders from "../pages/Order/StaffOrders.jsx";
 import AdminOrder from "../pages/Order/AdminOrder.jsx";
+import ProductItemSearch from "../pages/ProductItemSearch/ProductItemSearch";
 
 const AppRoutes = () => {
   return (
@@ -33,7 +36,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/:id/detail" element={<UserDetail />} />
-        <Route path="/:id/payments" element={<UserDetail />} />
+        <Route path="/:id/payments" element={<UserPayment />} />
 
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin-product" element={<AdminProduct />} />
@@ -44,9 +47,12 @@ const AppRoutes = () => {
 
         <Route path="/koi/:productName" element={<ProductItem />} />
         <Route path="/koi/:productName/:id" element={<ProductItemDetail />} />
+        <Route path="/product-item-search" element={<ProductItemSearch />} />
 
         <Route path="/cart" element={<Cart />} />
         <Route path="order" element={<Order />} />
+
+        <Route path="/staff-orders" element={<StaffOrders />} />
 
         <Route path="/test" element={<Cloudinary />} />
 

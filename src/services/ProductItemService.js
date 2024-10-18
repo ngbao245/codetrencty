@@ -1,11 +1,26 @@
 import axios from "./Customize-Axios";
 
-const fetchAllProdItem = () => {
-  return axios.get("ProductItem/get-all-product-items");
+const fetchAllProdItem = (pageIndex, pageSize, searchQuery) => {
+  return axios.get(`ProductItem/get-all-product-items`,{
+    params:{
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+      searchQuery: searchQuery
+    }
+  });
+};
+
+const getAllProdItem = () => {
+  return axios.get(`ProductItem/get-all-product-items?pageSize=${1000000000}`);
 };
 
 const getProdItemById = (id) => {
   return axios.get(`ProductItem/get-product-item/${id}`);
+};
+
+const getNameOfProdItem = async (id) => {
+  const response = await axios.get(`ProductItem/get-product-item/${id}`);
+  return response.data;
 };
 
 const getProdItemByProdId = (prodId) => {
@@ -13,7 +28,7 @@ const getProdItemByProdId = (prodId) => {
 };
 
 const createProdItem = (data) => {
-  return axios.post("ProductItem/create-product-item" , data);
+  return axios.post("ProductItem/create-product-item", data);
 };
 
 const updateProdItem = (id) => {
@@ -26,9 +41,11 @@ const deleteProdItem = (id) => {
 
 export {
   fetchAllProdItem,
+  getAllProdItem,
   getProdItemById,
   getProdItemByProdId,
   createProdItem,
   updateProdItem,
   deleteProdItem,
+  getNameOfProdItem,
 };

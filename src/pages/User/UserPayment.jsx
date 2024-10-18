@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import { fetchAllPayment } from '../../services/PaymentService';
+import { fetchUserPayment } from '../../services/PaymentService';
 import './UserPayment.css';
 
 const UserPayment = () => {
@@ -12,7 +12,7 @@ const UserPayment = () => {
   useEffect(() => {
     const getPayments = async () => {
       try {
-        const response = await fetchAllPayment();
+        const response = await fetchUserPayment();
         console.log('Payments data:', response.data);
         const paymentsData = Array.isArray(response.data) ? response.data : 
                              (Array.isArray(response.data?.data) ? response.data.data : []);
@@ -55,6 +55,7 @@ const UserPayment = () => {
               <th>Số tiền</th>
               <th>Phương thức</th>
               <th>Ngày thanh toán</th>
+              <th>Mã đơn hàng</th>
               <th>Trạng thái</th>
             </tr>
           </thead>
@@ -63,9 +64,12 @@ const UserPayment = () => {
               <tr key={payment.id}>
                 <td>{payment.id}</td>
                 <td>{payment.amount.toLocaleString('vi-VN')} VND</td>
-                <td>{payment.paymentMethod}</td>
-                <td>{new Date(payment.paymentDate).toLocaleDateString('vi-VN')}</td>
-                <td>{payment.status}</td>
+                <td>{payment.method}</td>
+                <td>{new Date(payment.createdTime).toLocaleDateString('vi-VN')}</td>
+                <td>{payment.orderId}</td>
+                <td style={{
+                  color: 'green'
+                }}>{payment.status}</td>
               </tr>
             ))}
           </tbody>

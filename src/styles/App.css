@@ -1,6 +1,44 @@
 @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 
+:root {
+  --primary-red: #c70025;
+  --primary-blue: #1c6197;
+  --primary-grey: #f1f1f1;
+  --primary-white: #ffffff;
+  --primary-black: #281713;
+  --primary-transparent: transparent;
+
+  --error-color: #dc3545;
+  --warning-color: #ffa500;
+  --success-color: #28a745;
+
+  --border-default: 6px solid #c70025;
+  --border-text-box: 2px solid #c70025;
+
+  --radius-default: 6px;
+
+  --font-size-title: 64px;
+  --font-size-section: 32px;
+  --font-size-default: 24px;
+  --font-size-p: 16px;
+
+  --font-weight-title: 700;
+
+  --box-shadow-default: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  --spacing-small: 10px;
+  --spacing-medium: 20px;
+  --spacing-large: 30px;
+  --spacing-xlarge: 40px;
+  --spacing-xxlarge: 50px;
+
+  --margin-center: 0 auto;
+
+  --primary-background-light: url("/public/assets/backgroundUpscale.png")
+    no-repeat center center fixed;
+}
+
 *,
 *::before,
 *::after {
@@ -9,9 +47,9 @@
 }
 
 body {
-  font-family: "Be Vietnam Pro", -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, "Oxygen", "Ubuntu", "Cantarell",
-    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,4 +70,12 @@ input::-ms-clear {
 
 textarea {
   resize: none !important;
+}
+
+img {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }

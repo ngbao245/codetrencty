@@ -71,6 +71,11 @@
   gap: 1rem;
 }
 
+.thank-you-message {
+  width: 60%;
+  text-align: justify;
+}
+/* 
 .btn {
   padding: 0.5rem 1rem;
   border-radius: 4px;
@@ -95,4 +100,4 @@
 
 .btn-secondary:hover {
   background-color: #545b62;
-}
+} */

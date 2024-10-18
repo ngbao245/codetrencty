@@ -5,7 +5,8 @@ import ModalAddProductItem from "../../components/ModalAddProductItem";
 import Papa from "papaparse";
 import { toast } from "react-toastify";
 import { fetchAllProdItem } from "../../services/ProductItemService";
-import "../Admin/Admin.css";
+// import "../Admin/Admin.css";
+import { getProductById } from "../../services/ProductService";
 
 const AdminProduct = () => {
   const [dataExport, setDataExport] = useState([]);
@@ -22,7 +23,19 @@ const AdminProduct = () => {
     try {
       const response = await fetchAllProdItem(pageIndex, pageSize, searchQuery);
       if (response && response.data && response.data.entities) {
-        setListProductItems(response.data.entities);
+        const productItems = response.data.entities;
+
+        const detailedProductItems = await Promise.all(
+          productItems.map(async (item) => {
+            const productResponse = await getProductById(item.productId);
+            return {
+              ...item,
+              productName: productResponse?.data?.name || "Unknown",
+            };
+          })
+        );
+
+        setListProductItems(detailedProductItems);
         setTotalPages(response.data.totalPages);
       } else {
         toast.error("Unexpected data format received");
@@ -82,7 +95,13 @@ const AdminProduct = () => {
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setPageIndex(newPage);
+      console.log("Changing page to:", newPage);
     }
+  };
+
+  const handlePageSizeChange = (e) => {
+    setPageSize(Number(e.target.value));
+    setPageIndex(1);
   };
 
   const filteredProductItems = Array.isArray(listProductItems)
@@ -94,10 +113,11 @@ const AdminProduct = () => {
   return (
     <>
       <AdminHeader />
+
       <div className="container">
         <div className="my-3 add-new d-sm-flex">
           <span>
-            <b>List Product Items:</b>
+            <b>Danh sách các mặt hàng sản phẩm:</b>
           </span>
           <div className="group-btns mt-sm-0 mt-2">
             <div>
@@ -114,7 +134,7 @@ const AdminProduct = () => {
             </div>
 
             <CSVLink
-              filename={"staff_export.csv"}
+              filename={"xuat_san_pham.csv"}
               className="btn btn-success"
               data={dataExport}
               asyncOnClick={true}
@@ -129,7 +149,7 @@ const AdminProduct = () => {
               onClick={() => setShowModalAddProduct(true)}
             >
               <i className="fa-solid fa-circle-plus px-1"></i>
-              <span className="px-1">Add new</span>
+              <span className="px-1">Thêm Mới</span>
             </button>
           </div>
         </div>
@@ -137,90 +157,112 @@ const AdminProduct = () => {
         <div className="col-12 col-sm-4 my-3">
           <input
             className="form-control"
-            placeholder="Search product item by name..."
+            placeholder="Tìm kiếm mặt hàng sản phẩm theo tên..."
             value={searchTerm}
             onChange={handleSearch}
           />
         </div>
-        <div className="customize-table">
-          <table className="table table-striped text-center">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Origin</th>
-                <th>Sex</th>
-                <th>Age</th>
-                <th>Size</th>
-                <th>Species</th>
-                <th>Personality</th>
-                <th>FoodAmount</th>
-                <th>WaterTemp</th>
-                <th>MineralContent</th>
-                <th>pH</th>
-                <th>Quantity</th>
-                <th>Type</th>
-                <th>ProductId</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredProductItems.length > 0 ? (
-                filteredProductItems.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.name}</td>
-                    <td>{item.price}</td>
-                    <td>{item.category}</td>
-                    <td>{item.origin}</td>
-                    <td>{item.sex}</td>
-                    <td>{item.age}</td>
-                    <td>{item.size}</td>
-                    <td>{item.species}</td>
-                    <td>{item.personality}</td>
-                    <td>{item.foodAmount}</td>
-                    <td>{item.waterTemp}</td>
-                    <td>{item.mineralContent}</td>
-                    <td>{item.ph}</td>
-                    <td>{item.quantity}</td>
-                    <td>{item.type}</td>
-                    <td>{item.productId}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="16">No product items found</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="pagination-controls">
-          <button
-            className="btn btn-secondary"
-            disabled={pageIndex === 1}
-            onClick={() => handlePageChange(pageIndex - 1)}
-          >
-            Previous
-          </button>
-          <span className="px-3">
-            Page {pageIndex} of {totalPages}
-          </span>
-          <button
-            className="btn btn-secondary"
-            disabled={pageIndex === totalPages}
-            onClick={() => handlePageChange(pageIndex + 1)}
-          >
-            Next
-          </button>
-        </div>
-
-        <ModalAddProductItem
-          isOpen={showModalAddProduct}
-          onClose={handleCloseAddNew}
-          onSubmit={handleSubmitProduct}
-        />
       </div>
+
+      <div className="container-fluid">
+        <table className="table table-striped text-center">
+          <thead>
+            <tr>
+              <th>Tên SP</th>
+              <th>Giá</th>
+              <th>Loại</th>
+              <th>Nguồn Gốc</th>
+              <th>Giới tính</th>
+              <th>Tuổi</th>
+              <th>Kích thước</th>
+              <th>Loài</th>
+              <th>Tính cách</th>
+              <th>Lượng thức ăn</th>
+              <th>Nhiệt độ nước</th>
+              <th>Hàm lượng khoáng chất</th>
+              <th>pH</th>
+              <th>Số lượng</th>
+              <th>Loại</th>
+              <th>Tên loại SP</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredProductItems.length > 0 ? (
+              filteredProductItems.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                  <td>{item.price}</td>
+                  <td>{item.category}</td>
+                  <td>{item.origin}</td>
+                  <td>{item.sex}</td>
+                  <td>{item.age}</td>
+                  <td>{item.size}</td>
+                  <td>{item.species}</td>
+                  <td>{item.personality}</td>
+                  <td>{item.foodAmount}</td>
+                  <td>{item.waterTemp}</td>
+                  <td>{item.mineralContent}</td>
+                  <td>{item.ph}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.type}</td>
+                  <td>{item.productName}</td>
+                </tr>
+              ))
+            ) : (
+              <>
+                <tr>
+                  <td colSpan="16">Không tìm thấy sản phẩm nào</td>
+                </tr>
+                <tr>
+                  <td colSpan="16">
+                    <i
+                      className="fa-regular fa-folder-open"
+                      style={{ fontSize: "30px", opacity: 0.2 }}
+                    ></i>
+                  </td>
+                </tr>
+              </>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="pagination-controls text-center user-select-none">
+        <button
+          className="btn btn-secondary"
+          disabled={pageIndex === 1}
+          onClick={() => handlePageChange(pageIndex - 1)}
+        >
+          Trước
+        </button>
+        <span className="px-3">
+          Trang {pageIndex} / {totalPages}
+        </span>
+        <button
+          className="btn btn-secondary"
+          disabled={pageIndex === totalPages}
+          onClick={() => handlePageChange(pageIndex + 1)}
+        >
+          Sau
+        </button>
+
+        <select
+          value={pageSize}
+          onChange={handlePageSizeChange}
+          className="ml-3"
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={15}>15</option>
+          <option value={20}>20</option>
+        </select>
+      </div>
+
+      <ModalAddProductItem
+        isOpen={showModalAddProduct}
+        onClose={handleCloseAddNew}
+        onSubmit={handleSubmitProduct}
+      />
     </>
   );
 };

@@ -73,13 +73,30 @@ const getUserOrderByStatus = (status) => {
   });
 };
 
-const updateOrderStatus = (id, status) => {
+const updateOrderStatus = (orderId, newStatus) => {
   const token = localStorage.getItem("token");
   if (!token) {
     throw new Error("No token found! Please log in again.");
   }
 
-  return axios.put(`Order/update-status/${id}`, status, {
+  return axios.put(
+    `Order/update-order-status/${orderId}`,
+    { status: newStatus },
+    {
+      headers: {
+        Authorization: `${token}`,
+      },
+    }
+  );
+};
+
+const getAssignedOrders = () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("No token found! Please log in again.");
+  }
+
+  return axios.get("/Order/staff/get-assigned-orders", {
     headers: {
       Authorization: `${token}`,
     },
@@ -92,15 +109,30 @@ const assignStaff = (orderId, staffId) => {
     throw new Error("No token found! Please log in again.");
   }
 
-  return axios.put(`Order/order/assign-staff/${orderId}`, 
-    { staffId: staffId },  
+  return axios.put(
+    `Order/order/assign-staff/${orderId}`,
+    { staffId: staffId },
     {
       headers: {
         Authorization: `${token}`,
-        'Content-Type': 'application/json',   
+        "Content-Type": "application/json",
       },
     }
   );
+};
+
+const updateIsDelivered = async (orderId) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("No token found! Please log in again.");
+  }
+
+  return await axios.put(`Order/is-delivered?orderId=${orderId}`, 
+    { isDelivered : true }, {
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
 };
 
 export {
@@ -111,5 +143,7 @@ export {
   getOrderByStatus,
   getUserOrderByStatus,
   updateOrderStatus,
+  getAssignedOrders,
   assignStaff,
+  updateIsDelivered,
 };

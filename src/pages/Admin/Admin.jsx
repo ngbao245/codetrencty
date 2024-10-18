@@ -81,8 +81,8 @@ const Admin = () => {
   };
 
   const handleUpdateTable = (staff) => {
-    setFetchAgain((prev) => !prev); // Toggle fetchAgain to refetch staff data
-    setIsShowModalAddNew(false); // Close the modal after adding
+    setFetchAgain((prev) => !prev);
+    setIsShowModalAddNew(false);
   };
 
   const handleSearch = (event) => {
@@ -111,10 +111,11 @@ const Admin = () => {
   return (
     <>
       <AdminHeader />
+
       <div className="container">
         <div className="my-3 add-new d-sm-flex">
           <span>
-            <b>List Staffs:</b>
+            <b>Danh sách nhân viên:</b>
           </span>
           <div className="group-btns mt-sm-0 mt-2">
             <div>
@@ -146,7 +147,7 @@ const Admin = () => {
               onClick={() => setIsShowModalAddNew(true)}
             >
               <i className="fa-solid fa-circle-plus px-1"></i>
-              <span className="px-1">Add new</span>
+              <span className="px-1">Thêm Mới</span>
             </button>
           </div>
         </div>
@@ -154,23 +155,25 @@ const Admin = () => {
         <div className="col-12 col-sm-4 my-3">
           <input
             className="form-control"
-            placeholder="Search staff by email..."
+            placeholder="Tìm kiếm nhân viên theo email..."
             value={searchTerm}
             onChange={handleSearch}
           />
         </div>
+      </div>
 
+      <div className="container-fluid">
         <HintBox />
 
         <table className="table table-striped text-center">
           <thead>
             <tr>
-              <th>Name</th>
+              <th>Tên Nhân Viên</th>
               <th>Email</th>
-              <th>Address</th>
-              <th>Phone</th>
-              <th>Role ID</th>
-              <th>Delete</th>
+              <th>Địa Chỉ</th>
+              <th>Số Điện Thoại</th>
+              <th>Chức Vụ</th>
+              <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -181,13 +184,13 @@ const Admin = () => {
                   <td>{staff.email}</td>
                   <td>{staff.address}</td>
                   <td>{staff.phone}</td>
-                  <td>{staff.roleId}</td>
+                  <td>Staff</td>
                   <td>
                     <button
                       className="btn btn-danger mx-3"
                       onClick={() => handleDelete(staff)}
                     >
-                      Delete
+                      <i className="fa-solid fa-trash"></i>
                     </button>
                   </td>
                 </tr>
@@ -195,7 +198,7 @@ const Admin = () => {
             ) : (
               <>
                 <tr>
-                  <td colSpan="6">No staff found</td>
+                  <td colSpan="6">Không tìm thấy nhân viên nào</td>
                 </tr>
                 <tr>
                   <td colSpan="6">
